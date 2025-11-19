@@ -2,6 +2,23 @@
 
 const { useEffect, useMemo, useState, useCallback, useRef } = React;
 
+// Route relative /api requests to API server when running the SPA on :3000
+(() => {
+  try {
+    const originalFetch = window.fetch.bind(window);
+    window.fetch = (input, init) => {
+      try {
+        const url = typeof input === 'string' ? input : (input && input.url) || '';
+        if (typeof url === 'string' && url.startsWith('/api/')) {
+          const base = (window.location && window.location.port === '3000') ? 'http://localhost:5000' : '';
+          return originalFetch(base + url, init);
+        }
+      } catch (_) {}
+      return originalFetch(input, init);
+    };
+  } catch (_) {}
+})();
+
 function useLocalStorageState(key, initialValue) {
   const [value, setValue] = useState(() => {
     try {

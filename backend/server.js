@@ -48,7 +48,7 @@ const frontendBuildPath = path.join(__dirname, '..', 'frontend', 'build');
 app.use(express.static(frontendBuildPath));
 
 // 3. Handle React routing, return all other requests to React app's index.html
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   // Check if the file exists before sending to prevent internal errors
   const indexPath = path.join(frontendBuildPath, 'index.html');
   if (req.originalUrl.includes('/api/')) {
@@ -60,20 +60,18 @@ app.get('*', (req, res) => {
   }
   res.sendFile(indexPath);
 });
-
-
-// ******************************************************
-// ❌ VERCEL REQUIREMENT: REMOVE app.listen()
-// ******************************************************
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log(`🚀 Server running on port ${PORT}`);
-// });
-
-
 // ******************************************************
 // ✅ VERCEL REQUIREMENT: EXPORT THE APP
 // ******************************************************
 module.exports = app;
 
 console.log('✅ Server setup complete for Vercel Serverless Function.');
+
+// Allow local execution via `node backend/server.js`
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  });
+}
+
