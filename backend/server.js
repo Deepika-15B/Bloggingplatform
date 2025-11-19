@@ -36,9 +36,6 @@ app.use('/api/admin/manage', adminManageRoutes);
 app.use('/api/users', userRoutes);
 app.use("/api/posts", postRoutes);
 
-// ******************************************************
-// ✅ VERCEL DEPLOYMENT FIX: Serve React Frontend
-// ******************************************************
 
 // 1. Define the path to the static build files (assuming 'build' folder in 'frontend')
 const frontendBuildPath = path.join(__dirname, '..', 'frontend', 'build');
@@ -60,9 +57,7 @@ app.get('/*', (req, res) => {
   }
   res.sendFile(indexPath);
 });
-// ******************************************************
-// ✅ VERCEL REQUIREMENT: EXPORT THE APP
-// ******************************************************
+
 module.exports = app;
 
 console.log('✅ Server setup complete for Vercel Serverless Function.');

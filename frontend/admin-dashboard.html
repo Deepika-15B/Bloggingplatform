@@ -174,7 +174,7 @@
 
     async function loadSummary() {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch("http://localhost:5000/api/admin/manage/summary", {
+      const res = await fetch("https://bloggingplatform-7d0s.onrender.com/api/admin/manage/summary", {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (!res.ok) return;
@@ -186,7 +186,7 @@
 
     async function loadUsers() {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch("http://localhost:5000/api/admin/manage/users", {
+      const res = await fetch("https://bloggingplatform-7d0s.onrender.com/api/admin/manage/users", {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (!res.ok) return;
@@ -213,7 +213,7 @@
 
     async function loadPosts() {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch("http://localhost:5000/api/admin/manage/posts", {
+      const res = await fetch("https://bloggingplatform-7d0s.onrender.com/api/admin/manage/posts", {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (!res.ok) return;
@@ -243,20 +243,20 @@
     async function deleteUser(id) {
       if (!confirm("Delete user?")) return;
       const token = localStorage.getItem('adminToken');
-      await fetch(`http://localhost:5000/api/admin/manage/users/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      await fetch(`https://bloggingplatform-7d0s.onrender.com/api/admin/manage/users/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
       loadUsers();
     }
 
     async function deletePost(id) {
       if (!confirm("Delete post?")) return;
       const token = localStorage.getItem('adminToken');
-      await fetch(`http://localhost:5000/api/admin/manage/posts/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      await fetch(`https://bloggingplatform-7d0s.onrender.com/api/admin/manage/posts/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
       loadPosts();
     }
 
     async function togglePublish(id, isPublished) {
       const token = localStorage.getItem('adminToken');
-      await fetch(`http://localhost:5000/api/admin/manage/posts/${id}/publish`, { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ isPublished }) });
+      await fetch(`https://bloggingplatform-7d0s.onrender.com/api/admin/manage/posts/${id}/publish`, { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ isPublished }) });
       loadPosts();
     }
 

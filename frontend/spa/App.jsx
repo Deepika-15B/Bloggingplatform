@@ -2,7 +2,11 @@
 
 const { useEffect, useMemo, useState, useCallback, useRef } = React;
 
-// Route relative /api requests to API server when running the SPA on :3000
+const API_BASE = (window.location && window.location.hostname === 'localhost')
+  ? 'http://localhost:5000'
+  : 'https://bloggingplatform-7d0s.onrender.com';
+
+// Route relative /api requests to API server when running locally
 (() => {
   try {
     const originalFetch = window.fetch.bind(window);
@@ -10,8 +14,7 @@ const { useEffect, useMemo, useState, useCallback, useRef } = React;
       try {
         const url = typeof input === 'string' ? input : (input && input.url) || '';
         if (typeof url === 'string' && url.startsWith('/api/')) {
-          const base = (window.location && window.location.port === '3000') ? 'http://localhost:5000' : '';
-          return originalFetch(base + url, init);
+          return originalFetch(API_BASE + url, init);
         }
       } catch (_) {}
       return originalFetch(input, init);
@@ -1136,7 +1139,7 @@ function Categories() {
 
   async function fetchStats() {
     try {
-      const response = await fetch('http://localhost:5000/api/posts');
+      const response = await fetch(`${API_BASE}/api/posts`);
       const posts = await response.json();
       if (!response.ok) throw new Error('Failed to fetch posts');
       const categoryStats = {};
